@@ -9,5 +9,8 @@ bot=telebot.TeleBot(token)
 
 @app.route('/',methods=["POST","GET"])
 def hello_world():
-    bot.send_message(421590404,"Hello from heroku")
-    return ('Hello World!',200,None)
+    if request.method == "POST":
+        return (request.get_json(),200,None)
+    else:
+        bot.send_message(421590404,"Hello from heroku")
+        return ('Hello World!',200,None)
