@@ -4,7 +4,7 @@ token="683907622:AAFDIZxPvAQJXqFQNc4zwGgggmvs9EICr8c"
 
 app = Flask(__name__)
 bot=telebot.TeleBot(token)
-count=0
+global count=0
 
 
 @app.route('/',methods=["POST","GET"])
@@ -15,4 +15,4 @@ def hello_world():
         return (request.get_json(),200,None)
     else:
         bot.send_message(421590404,"Hello from heroku")
-        return ('Hello World!'+count,200,None)
+        return (count,200,None)
