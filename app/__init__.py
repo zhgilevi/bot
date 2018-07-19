@@ -1,17 +1,37 @@
-from flask import Flask,request,jsonify
+
+
+
+import os
 import telebot
-token="683907622:AAFDIZxPvAQJXqFQNc4zwGgggmvs9EICr8c"
+from flask import Flask, request
 
-app = Flask(__name__)
-bot=telebot.TeleBot(token)
-bot.set_webhook(url='https://easybot123.herokuapp.com/')
+TOKEN = '683907622:AAFDIZxPvAQJXqFQNc4zwGgggmvs9EICr8c'
+bot = telebot.TeleBot(TOKEN)
+server = Flask(__name__)
 
 
-@app.route('/',methods=["POST","GET"])
-def hello_world():
-    if request.method=='POST':
-        d=request.get_data()
-        r=d.json
-        return (jsonify(r),200)
-    bot.send_message(421590404,"Hello from heroku")
-    return ('Hello World!',200,None)
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+
+
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.reply_to(message, message.text)
+
+
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://your_heroku_project.com/' + TOKEN)
+    return "!", 200
+
+
+if __name__ == "__main__":
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
