@@ -4,7 +4,7 @@ token="683907622:AAFDIZxPvAQJXqFQNc4zwGgggmvs9EICr8c"
 
 app = Flask(__name__)
 bot=telebot.TeleBot(token)
-bot.set_webhook(url='https://easybot123.herokuapp.com/')
+
 
 
 @app.route('/')
