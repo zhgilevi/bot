@@ -7,7 +7,7 @@ bot=telebot.TeleBot(token)
 
 
 
-@app.route('/')
+@app.route('/',methods=["POST","GET"])
 def hello_world():
     bot.send_message(421590404,"Hello from heroku")
     return ('Hello World!',200,None)
