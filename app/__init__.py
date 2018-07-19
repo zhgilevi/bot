@@ -10,8 +10,10 @@ bot=telebot.TeleBot(token)
 @app.route('/',methods=["POST","GET"])
 def hello_world():
     if request.method == "POST":
-        count+=1
-        return (request.get_json(),200,None)
+        r=request.get_json()
+        chat_id=r['message']['chat']['id']
+        bot.send_message(chat_id,'it work')
+        return (jsonify(r),200)
     else:
  
         return ('Hi',200,None)
