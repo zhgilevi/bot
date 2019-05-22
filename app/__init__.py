@@ -10,6 +10,7 @@ bot=telebot.TeleBot(token)
 
 @app.route('/',methods=["POST","GET"])
 def hello_world():
+    bot.set_webhook("https://weatherbetabot.herokuapp.com/")
     if request.method == "POST":
         r=json.loads(request.data)
         chat_id=r['message']['chat']['id']
